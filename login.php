@@ -1,9 +1,9 @@
 <?php
 session_start();
-// if (isset($_SESSION['SESSION_EMAIL'])) {
-//     header("Location: welcome.php");
-//     die();
-// }
+if (isset($_SESSION['SESSION_EMAIL'])) {
+    header("Location: welcome.php");
+    die();
+}
 
 include './config/config.php';
 include './functions/function.php';
@@ -78,15 +78,14 @@ if (isset($_POST['submit'])) {
                                         account</h5>
 
                                     <div class="form-outline mb-4">
-                                        <input type="email" class="form-control form-control-lg" name="email" value="<?php if (isset($_POST['submit'])) {
+                                        <input type="email" class="form-control form-control-lg"  name="email" value="<?php if (isset($_POST['submit'])) {
                                             echo $email;
-                                        } ?>" required />
+                                        } ?>" required/>
                                         <label class="form-label">Email address</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" name="password" class="form-control form-control-lg"
-                                            required />
+                                        <input type="password" name="password" class="form-control form-control-lg" required/>
                                         <label class="form-label">Password</label>
                                     </div>
 
