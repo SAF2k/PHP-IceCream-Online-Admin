@@ -88,8 +88,8 @@ if (isset($_POST['update'])) {
                 while ($fetch_products = $show_products->fetch(PDO::FETCH_ASSOC)) {
                     ?>
 
-                    <div class="card m-3" style="max-width: 18rem;">
-                        <img src="./uploaded_img/<?= $fetch_products['image']; ?>" class="card-img-top" alt="...">
+                    <div class="card m-3 px-4" style="height:450px;">
+                        <img src="../uploaded_img/<?= $fetch_products['image']; ?>" class="card-img-top h-50" alt="<?= $fetch_products['name']; ?>">
                         <div class="card-body">
                             <h5 class="card-title m-1">
                                 <?= $fetch_products['name']; ?>

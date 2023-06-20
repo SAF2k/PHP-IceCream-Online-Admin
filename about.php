@@ -54,7 +54,7 @@
                             <i class="fa fa-check text-primary me-2"></i>Home Delivery
                         </div>
                     </div>
-                    <a class="btn btn-primary rounded-pill py-3 px-5" href="">Read More</a>
+                    <a class="btn btn-primary rounded-pill py-3 px-5" href="menu.php">Out Menu</a>
                 </div>
             </div>
         </div>

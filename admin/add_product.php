@@ -25,7 +25,7 @@ if (isset($_POST['add_product'])) {
     $image = filter_var($image, FILTER_SANITIZE_STRING);
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = './uploaded_img/' . $image;
+    $image_folder = '../uploaded_img/' . $image;
 
     $select_products = $conn->prepare("SELECT * FROM `products` WHERE name = ?");
     $select_products->execute([$name]);
@@ -181,7 +181,7 @@ if (isset($_GET['delete'])) {
                                                     <?= $fetch_products['price']; ?>
                                                 </td>
                                                 <td>
-                                                    <img src="./uploaded_img/<?= $fetch_products['image']; ?>" height="100"
+                                                    <img src="../uploaded_img/<?= $fetch_products['image']; ?>" height="100"
                                                         width="100">
                                                 </td>
                                                 <td>

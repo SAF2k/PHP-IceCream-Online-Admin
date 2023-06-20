@@ -1,38 +1,60 @@
+<?php
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    $user_id = '';
+}
+;
+?>
+
+
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-    <a href="index.php" class="navbar-brand ms-4 ms-lg-0">
-        <h1 class="text-primary m-0">Baker</h1>
-    </a>
-    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav mx-auto p-4 p-lg-0">
-            <a href="index.php" class="nav-item nav-link active">Home</a>
-            <a href="about.php" class="nav-item nav-link">About</a>
-            <a href="service.php" class="nav-item nav-link">Services</a>
-            <a href="product.php" class="nav-item nav-link">Products</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                <div class="dropdown-menu m-0">
-                    <a href="team.html" class="dropdown-item">Our Team</a>
-                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                    <a href="404.html" class="dropdown-item">404 Page</a>
-                </div>
-            </div>
-            <a href="contact.html" class="nav-item nav-link">Contact</a>
-        </div>
-        <div class=" d-none d-lg-flex">
-            <div class="flex-shrink-0 btn-lg-square border border-light rounded-circle">
-                <i class="fa fa-phone text-primary"></i>
-            </div>
-            <div class="ps-3">
-                <small class="text-primary mb-0">Call Us</small>
-                <p class="text-light fs-5 mb-0">+012 345 6789</p>
-            </div>
-        </div>
-    </div>
-</nav>
-<!-- Navbar End -->
+    <a class = "navbar-brand d-flex justify-content-between align-items-center order-lg-0" href = "index.php">
+                <h1 class="text-primary m-0">Kushi</h1>
+            </a>
 
+            <div class = "order-lg-2 nav-btns">
+
+                <?php
+                $count_cart_items = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+                $count_cart_items->execute([$user_id]);
+                $total_cart_items = $count_cart_items->rowCount();
+                ?>
+
+                <a href="cart.php" class = "btn position-relative">
+                    <i class = "fa fa-shopping-cart text-light"></i>
+                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary"><?= $total_cart_items; ?></span>
+                </a>
+                <a href="login.php" class = "btn position-relative">
+                    <i class = "fa fa-user text-light"></i>
+                </a>
+
+            </div>
+
+            <button class = "navbar-toggler border-0" type = "button" data-bs-toggle = "collapse" data-bs-target = "#navMenu">
+                <span class = "navbar-toggler-icon"></span>
+            </button>
+
+            <div class = "collapse navbar-collapse order-lg-1" id = "navMenu">
+                <ul class = "navbar-nav mx-auto text-center">
+                    <li class = "nav-item px-2 py-2">
+                        <a class = "nav-link text-uppercase active" href = "index.php">home</a>
+                    </li>
+                    <li class = "nav-item px-2 py-2">
+                        <a class = "nav-link text-uppercase" href = "menu.php">menu</a>
+                    </li>
+                    <li class = "nav-item px-2 py-2">
+                        <a class = "nav-link text-uppercase" href = "orders.php">orders</a>
+                    </li>
+                    <li class = "nav-item px-2 py-2">
+                        <a class = "nav-link text-uppercase" href = "about.php">about us</a>
+                    </li>
+                    <li class = "nav-item px-2 py-2 border-0">
+                        <a class = "nav-link text-uppercase" href = "contact.php">contact us</a>
+                    </li>
+                </ul>
+            </div>
+            
+</nav>
 <!-- Navbar End -->

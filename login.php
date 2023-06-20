@@ -5,7 +5,7 @@ if (isset($_SESSION['SESSION_EMAIL'])) {
     die();
 }
 
-include './config/config.php';
+include './includes/config.php';
 include './functions/function.php';
 
 if (isset($_GET['verification'])) {

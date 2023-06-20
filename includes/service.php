@@ -20,7 +20,7 @@
                     <div class="col-sm-6 wow fadeIn" data-wow-delay="0.2s">
                         <div class="d-flex align-items-center mb-3">
                             <div class="flex-shrink-0 btn-square bg-primary rounded-circle me-3">
-                                <i class="fa fa-birthday-cake text-white"></i>
+                                <i class="fa fa-snowflake-o text-white"></i>
                             </div>
                             <h5 class="mb-0">Custom Products</h5>
                         </div>
@@ -49,10 +49,10 @@
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="row img-twice position-relative h-100">
                     <div class="col-6">
-                        <img class="img-fluid rounded" src="img/service-1.jpg" alt="">
+                        <img class="img-fluid rounded" src="image/cone-dry.jpg" alt="">
                     </div>
                     <div class="col-6 align-self-end">
-                        <img class="img-fluid rounded" src="img/service-2.jpg" alt="">
+                        <img class="img-fluid rounded" src="image/scope.png" alt="">
                     </div>
                 </div>
             </div>
