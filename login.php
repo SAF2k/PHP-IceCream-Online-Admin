@@ -42,10 +42,12 @@ if (isset($_POST['submit'])) {
         if (empty($row['code'])) {
             if($row['role'] == "admin") {
                 $_SESSION['admin_id'] = $row['id'];
-                header("Location: admin/index.php");
+                echo $_SESSION['admin_id'];
+                // header("Location: admin/index.php");
             } else {
                 $_SESSION['user_id'] = $row['id'];
-                header("Location: index.php");
+                echo $_SESSION['user_id'];
+                // header("Location: index.php");
             }
         } else {
             msg("First verify your account and try again.", "danger");
