@@ -7,9 +7,10 @@ function redirect($url, $message)
     exit();
 }
 
-function msg($message)
+function msg($message,$method)
 {
      $_SESSION['message'] = $message;
+    $_SESSION['method'] = $method;
 
 }
 

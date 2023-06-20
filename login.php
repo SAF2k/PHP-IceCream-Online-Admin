@@ -1,43 +1,52 @@
 <?php
+
 session_start();
-if (isset($_SESSION['SESSION_EMAIL'])) {
-    header("Location: welcome.php");
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
     die();
 }
 
-include './includes/config.php';
+include './config/connect.php';
 include './functions/function.php';
 
 if (isset($_GET['verification'])) {
-    if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE code='{$_GET['verification']}'")) > 0) {
-        $query = mysqli_query($conn, "UPDATE users SET code='' WHERE code='{$_GET['verification']}'");
 
-        if ($query) {
-            msg("<div class='alert alert-success'>Account verification has been successfully completed.</div>");
-        }
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE code= ?");
+    $select_user->execute([$_GET['verification']]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
+
+    if ($row > 0) {
+        $update_code = $conn->prepare("UPDATE `users` SET code = ? WHERE code = ?");
+       if($update_code->execute(['',$_GET['verification']])){
+        msg("Your account has been verified successfully.", "success");
+       }
     } else {
         header("Location: index.php");
     }
 }
 
 if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, md5($_POST['password']));
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_STRING);
+    $password = sha1($_POST['password']);
+    $password = filter_var($password, FILTER_SANITIZE_STRING);
 
-    $sql = "SELECT * FROM users WHERE email='{$email}' AND password='{$password}'";
-    $result = mysqli_query($conn, $sql);
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ?");
+    $select_user->execute([$email, $password]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
-    if (mysqli_num_rows($result) === 1) {
-        $row = mysqli_fetch_assoc($result);
+
+    if ($select_user->rowCount() > 0) {
 
         if (empty($row['code'])) {
-            $_SESSION['SESSION_EMAIL'] = $email;
+            $_SESSION['user_id'] = $email;
             header("Location: index.php");
         } else {
-            msg("<div class='alert alert-info'>First verify your account and try again.</div>");
+            msg("First verify your account and try again.", "danger");
         }
     } else {
-        msg("<div class='alert alert-danger'>Email or password do not match.</div>");
+        msg("Email or password do not match.", "danger");
     }
 }
 ?>
@@ -59,9 +68,13 @@ if (isset($_POST['submit'])) {
                             <div class="card-body p-4 p-lg-5 text-black">
 
                                 <?php
-                                if (isset($_SESSION['message'])) {
-                                    echo $_SESSION['message'];
+                                if (isset($_SESSION['message'])) { ?>
+                                    <div class='alert alert-<?= $_SESSION['method']; ?>'>
+                                        <?= $_SESSION['message']; ?>
+                                    </div>
+                                    <?php
                                     unset($_SESSION['message']);
+                                    unset($_SESSION['method']);
                                 }
                                 ?>
 
@@ -78,14 +91,15 @@ if (isset($_POST['submit'])) {
                                         account</h5>
 
                                     <div class="form-outline mb-4">
-                                        <input type="email" class="form-control form-control-lg"  name="email" value="<?php if (isset($_POST['submit'])) {
+                                        <input type="email" class="form-control form-control-lg" name="email" value="<?php if (isset($_POST['submit'])) {
                                             echo $email;
-                                        } ?>" required/>
+                                        } ?>" required />
                                         <label class="form-label">Email address</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" name="password" class="form-control form-control-lg" required/>
+                                        <input type="password" name="password" class="form-control form-control-lg"
+                                            required />
                                         <label class="form-label">Password</label>
                                     </div>
 
