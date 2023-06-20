@@ -1,3 +1,45 @@
+<?php
+
+include 'config/connect.php';
+
+// session_start();
+
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  header('location:menu.php');
+} else {
+  $user_id = '';
+  header('location:login.php');
+}
+;
+
+if (isset($_POST['delete'])) {
+  $cart_id = $_POST['cart_id'];
+  $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE id = ?");
+  $delete_cart_item->execute([$cart_id]);
+  $message[] = 'cart item deleted!';
+}
+
+if (isset($_POST['delete_all'])) {
+  $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
+  $delete_cart_item->execute([$user_id]);
+  // header('location:cart.php');
+  $message[] = 'deleted all from cart!';
+}
+
+if (isset($_POST['update_qty'])) {
+  $cart_id = $_POST['cart_id'];
+  $qty = $_POST['qty'];
+  $qty = filter_var($qty, FILTER_SANITIZE_STRING);
+  $update_qty = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
+  $update_qty->execute([$qty, $cart_id]);
+  $message[] = 'cart quantity updated';
+}
+
+$grand_total = 0;
+
+?>
+
 <!-- Header Start -->
 <?php include('./includes/header.php'); ?>
 <!-- Header End -->
@@ -31,17 +73,25 @@
           </div>
         </div>
 
+        <?php
+         $grand_total = 0;
+         $select_cart = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+         $select_cart->execute([$user_id]);
+         if($select_cart->rowCount() > 0){
+            while($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)){
+      ?>
+
         <div class="card rounded-3 mb-4">
           <div class="card-body p-4">
             <div class="row d-flex justify-content-between align-items-center">
               <div class="col-md-2 col-lg-2 col-xl-2">
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                  src="uploaded_img/<?= $fetch_cart['image']; ?>"
                   class="img-fluid rounded-3" alt="Cotton T-shirt">
               </div>
               <div class="col-md-3 col-lg-3 col-xl-3">
-                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p>
+                <p class="lead fw-normal mb-2"><?= $fetch_cart['name']; ?></p>
+                <p><span class="text-muted">Price: </span><?= $fetch_cart['price']; ?> </p>
               </div>
               <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                 <button class="btn btn-link px-2"
@@ -49,7 +99,7 @@
                   <i class="fas fa-minus"></i>
                 </button>
 
-                <input id="form1" min="0" name="quantity" value="2" type="number"
+                <input id="form1" min="1" max="6" name="quantity" value="<?= $fetch_cart['quantity']; ?>" maxlength="2" type="number"
                   class="form-control form-control-sm" />
 
                 <button class="btn btn-link px-2"
@@ -58,15 +108,25 @@
                 </button>
               </div>
               <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                <h5 class="mb-0">$499.00</h5>
+                <h5 class="mb-0">Total : $<?= $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?></h5>
+              </div>
+               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <a href="" type="submit" name="update_qty"  class="text-success"><i class="fa fa-check fa-lg"></i></a>
               </div>
               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                <a href=""type="submit" name="delete" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
               </div>
             </div>
           </div>
         </div>
 
+        <?php
+            $grand_total += $sub_total;
+          }
+        } else {
+          echo '<p class="empty">your cart is empty</p>';
+        }
+        ?>
 
         <div class="card mb-4">
           <div class="card-body p-4 d-flex flex-row">

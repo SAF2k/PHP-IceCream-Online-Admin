@@ -30,6 +30,7 @@ if (isset($_POST['submit'])) {
     $cpassword = sha1($_POST['cpassword']);
     $cpassword = filter_var($cpassword, FILTER_SANITIZE_STRING);
     $code = filter_var(md5(rand()), FILTER_SANITIZE_STRING);
+    $role="user";
 
 
 
@@ -43,8 +44,8 @@ if (isset($_POST['submit'])) {
     } else {
         if ($password === $cpassword) {
 
-            $insert_user = $conn->prepare("INSERT INTO users (name, email, number, password, code) VALUES (?,?,?,?,?)");
-            $insert_user->execute([$name, $email, $phone, $password, $code]);
+            $insert_user = $conn->prepare("INSERT INTO users (name, email, number, password, code, role) VALUES (?,?,?,?,?,?)");
+            $insert_user->execute([$name, $email, $phone, $password, $code, $role]);
 
 
             $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ?");

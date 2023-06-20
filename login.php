@@ -40,8 +40,13 @@ if (isset($_POST['submit'])) {
     if ($select_user->rowCount() > 0) {
 
         if (empty($row['code'])) {
-            $_SESSION['user_id'] = $email;
-            header("Location: index.php");
+            if($row['role'] == "admin") {
+                $_SESSION['admin_id'] = $row['id'];
+                header("Location: admin/index.php");
+            } else {
+                $_SESSION['user_id'] = $row['id'];
+                header("Location: index.php");
+            }
         } else {
             msg("First verify your account and try again.", "danger");
         }

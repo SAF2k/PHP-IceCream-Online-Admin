@@ -1,10 +1,14 @@
 <?php
 
+
+
 include 'config/connect.php';
 
 
 
 include 'includes/add_cart.php';
+
+echo $_SESSION['user_id'];
 
 ?>
 

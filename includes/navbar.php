@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 include './config/connect.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -28,9 +28,21 @@ if (isset($_SESSION['user_id'])) {
                     <i class = "fa fa-shopping-cart text-light"></i>
                     <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary"><?= $total_cart_items; ?></span>
                 </a>
-                <a href="login.php" class = "btn position-relative">
-                    <i class = "fa fa-user text-light"></i>
-                </a>
+                <?php 
+                if (isset($_SESSION['user_id'])) {
+                    ?>
+                    <a href="logout.php" class = "btn position-relative">
+                        <i class = "fa fa-power-off text-light"></i>
+                    </a>
+                    <?php
+                } else {
+                    ?>
+                    <a href="login.php" class = "btn position-relative">
+                        <i class = "fa fa-user text-light"></i>
+                    </a>
+                    <?php
+                }
+                ?>
 
             </div>
 
