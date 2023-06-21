@@ -24,6 +24,7 @@
     
     <!-- Template Stylesheet -->
     <link href="./assets/css/style.css" rel="stylesheet">
+    <link href="./assets/css/main.css" rel="stylesheet">
     
     <!-- Customized Bootstrap Stylesheet -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">

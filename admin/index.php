@@ -1,4 +1,16 @@
-<?php include('./includes/connect.php'); ?>
+<?php
+
+session_start();
+
+$admin_id = $_SESSION['admin_id'];
+
+if (!isset($admin_id)) {
+    header('location:../index.php');
+}
+
+include('./includes/connect.php'); 
+
+?>
 
 <?php include('./includes/header.php'); ?>
 <meta http-equiv="refresh" content="<?php echo $sec ?>;URL='<?php echo $page ?>'">

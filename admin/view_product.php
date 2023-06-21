@@ -5,12 +5,12 @@ include './functions/admin_function.php';
 
 session_start();
 
-// $admin_id = $_SESSION['admin_id'];
+$admin_id = $_SESSION['admin_id'];
 
-// if (!isset($admin_id)) {
-//     header('location:admin_login.php');
-// }
-// ;
+if (!isset($admin_id)) {
+    header('location:admin_login.php');
+}
+;
 
 
 if (isset($_GET['delete'])) {
@@ -19,7 +19,7 @@ if (isset($_GET['delete'])) {
     $delete_product_image = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
     $delete_product_image->execute([$delete_id]);
     $fetch_delete_image = $delete_product_image->fetch(PDO::FETCH_ASSOC);
-    unlink('./uploaded_img/' . $fetch_delete_image['image']);
+    unlink('../uploaded_img/' . $fetch_delete_image['image']);
     $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
     $delete_product->execute([$delete_id]);
     $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE pid = ?");
@@ -49,7 +49,7 @@ if (isset($_POST['update'])) {
     $image = filter_var($image, FILTER_SANITIZE_STRING);
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = './uploaded_img/' . $image;
+    $image_folder = '../uploaded_img/' . $image;
 
     if (!empty($image)) {
         if ($image_size > 2000000) {
@@ -58,7 +58,7 @@ if (isset($_POST['update'])) {
             $update_image = $conn->prepare("UPDATE `products` SET image = ? WHERE id = ?");
             $update_image->execute([$image, $pid]);
             move_uploaded_file($image_tmp_name, $image_folder);
-            unlink('./uploaded_img/' . $old_image);
+            unlink('../uploaded_img/' . $old_image);
             msg('Image Updated Successfully!', 'success');
         }
     }

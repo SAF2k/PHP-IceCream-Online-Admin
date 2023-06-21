@@ -1,163 +1,180 @@
 <?php
 session_start();
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// Include database connection and other necessary files
 include 'config/connect.php';
 
-echo $_SESSION['user_id'];
-
-
-// if (isset($_SESSION['user_id'])) {
-//   $user_id = $_SESSION['user_id'];
-//   header('location: cart.php');
-// } else {
-//   $user_id = '';
-//   header('location:login.php');
-// }
-// ;
-
-if (isset($_POST['delete'])) {
-  $cart_id = $_POST['cart_id'];
-  $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE id = ?");
-  $delete_cart_item->execute([$cart_id]);
-  $message[] = 'cart item deleted!';
+// Handle increment and decrement actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['increment'])) {
+        $cartId = $_POST['cart_id'];
+        updateQuantity($cartId, 1);
+    } elseif (isset($_POST['decrement'])) {
+        $cartId = $_POST['cart_id'];
+        updateQuantity($cartId, -1);
+    }
 }
 
-if (isset($_POST['delete_all'])) {
-  $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
-  $delete_cart_item->execute([$user_id]);
-  // header('location:cart.php');
-  $message[] = 'deleted all from cart!';
+// Function to update the quantity of a cart item
+function updateQuantity($cartId, $change)
+{
+    global $conn;
+
+    // Retrieve the current quantity from the database
+    $selectQuery = $conn->prepare("SELECT quantity FROM cart WHERE id = ?");
+    $selectQuery->execute([$cartId]);
+    $currentQuantity = $selectQuery->fetchColumn();
+
+    // Calculate the new quantity
+    $newQuantity = $currentQuantity + $change;
+
+    // Ensure the quantity does not go below 1
+    if ($newQuantity < 1) {
+        $newQuantity = 1;
+    }
+
+    // Update the quantity in the database
+    $updateQuery = $conn->prepare("UPDATE cart SET quantity = ? WHERE id = ?");
+    $updateQuery->execute([$newQuantity, $cartId]);
+
+    // Redirect back to the cart page
+    header('Location: cart.php');
+    exit;
 }
 
-if (isset($_POST['update_qty'])) {
-  $cart_id = $_POST['cart_id'];
-  $qty = $_POST['qty'];
-  $qty = filter_var($qty, FILTER_SANITIZE_STRING);
-  $update_qty = $conn->prepare("UPDATE `cart` SET quantity = ? WHERE id = ?");
-  $update_qty->execute([$qty, $cart_id]);
-  $message[] = 'cart quantity updated';
+if (isset($_POST['delete_item'])) {
+    $cart_id = $_POST['cart_id'];
+    $delete_cart_item = $conn->prepare("DELETE FROM `cart` WHERE id = ?");
+    $delete_cart_item->execute([$cart_id]);
+    $message[] = 'cart item deleted!';
 }
 
-$grand_total = 0;
-
+// Fetch the cart items for the logged-in user
+$user_id = $_SESSION['user_id'];
+$selectCart = $conn->prepare("SELECT * FROM cart WHERE user_id = ?");
+$selectCart->execute([$user_id]);
+$cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!-- Header Start -->
+
+
+
 <?php include('./includes/header.php'); ?>
-<!-- Header End -->
+
 
 
 <!-- Page Header Start -->
 <div class="container-fluid page-header mb-1 py-6 wow fadeIn" data-wow-delay="0.1s">
-  <div class="container text-center pt-5">
-    <h1 class="display-4 text-white animated slideInDown mb-3">Enjoy your Cart</h1>
-    <nav aria-label="breadcrumb animated slideInDown">
-      <ol class="breadcrumb justify-content-center mb-0">
-        <li class="breadcrumb-item"><a class="text-white" href="index.php">Home</a></li>
-        <li class="breadcrumb-item text-primary active" aria-current="page">Cart</li>
-      </ol>
-    </nav>
-  </div>
+    <div class="container text-center pt-5">
+        <h1 class="display-4 text-white animated slideInDown mb-3">Our Menu</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="index.php">Home</a></li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Menu</li>
+            </ol>
+        </nav>
+    </div>
 </div>
 <!-- Page Header End -->
 
 
-<div class="h-100" style="background-color: #eee;">
-  <div class="container h-100 py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-10">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-          <div>
-            <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
-                  class="fas fa-angle-down mt-1"></i></a></p>
-          </div>
-        </div>
 
-        <?php
-        $grand_total = 0;
-        $select_cart = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
-        $select_cart->execute([$user_id]);
-        if ($select_cart->rowCount() > 0) {
-          while ($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-            <form action="" method="post" class="box"></form>
-            <div class="card rounded-3 mb-4">
-              <div class="card-body p-4">
-                <div class="row d-flex justify-content-between align-items-center">
-                  <input type="hidden" name="cart_id" value="<?= $fetch_cart['id']; ?>">
-                  <div class="col-md-2 col-lg-2 col-xl-2">
-                    <img src="uploaded_img/<?= $fetch_cart['image']; ?>" class="img-fluid rounded-3" alt="Cotton T-shirt">
-                  </div>
-                  <div class="col-md-3 col-lg-3 col-xl-3">
-                    <p class="lead fw-normal mb-2">
-                      <?= $fetch_cart['name']; ?>
-                    </p>
-                    <p><span class="text-muted">Price: </span>
-                      <?= $fetch_cart['price']; ?>
-                    </p>
-                  </div>
-                  <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                    <button class="btn btn-link px-2"
-                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                      <i class="fas fa-minus"></i>
-                    </button>
 
-                    <input id="form1" min="1" max="6" name="quantity" value="<?= $fetch_cart['quantity']; ?>" maxlength="2"
-                      type="number" class="form-control form-control-sm" />
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <h1 class="mt-5 mb-4">Shopping Cart</h1>
+                <?php if (!empty($cartItems)): ?>
 
-                    <button class="btn btn-link px-2"
-                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                      <i class="fas fa-plus"></i>
-                    </button>
-                  </div>
-                  <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <h5 class="mb-0">Total : $
-                      <?= $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']); ?>
-                    </h5>
-                  </div>
-                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="" type="submit" name="update_qty" class="text-success"><i class="fa fa-check fa-lg"></i></a>
-                  </div>
-                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="" type="submit" name="delete" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
-                  </div>
-                </div>
-              </div>
+                    <?php
+                    $grandTotal = 0;
+                    foreach ($cartItems as $key => $item) {
+                        $total = $item['price'] * $item['quantity'];
+                        $grandTotal += $total;
+                    }
+                    ?>
+
+                    <div class="container justify-content-center">
+                        <?php foreach ($cartItems as $key => $item): ?>
+                            <div class="card mb-3">
+                                <div class="row g-0 d-flex justify-content-around align-items-center">
+                                    <div class="col-md-2">
+                                        <img src="uploaded_img/<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>"
+                                            class="img-fluid h-100">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <?php echo $item['name']; ?>
+                                            </h5>
+                                            <p class="card-text">Price: $
+                                                <?php echo $item['price']; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div class="card-body">
+                                            <form action="" method="post">
+                                                <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">
+                                                <div class="input-group">
+                                                    <button type="submit" name="decrement"
+                                                        class="btn btn-sm btn-outline-primary">-</button>
+                                                    <input type="text" max="6" name="quantity" class="form-control form-control-sm"
+                                                        style="max-width: 60px;" value="<?php echo $item['quantity']; ?>">
+                                                    <button type="submit" name="increment"
+                                                        class="btn btn-sm btn-outline-primary">+</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-body">
+                                            <p class="card-text">Total: $
+                                                <?php echo $item['price'] * $item['quantity']; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-body">
+                                            <form action="" method="post">
+                                                <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">
+                                                <button type="submit" name="delete_item"
+                                                    class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="text-md-left text-center mt-4">
+                        <h4 class="mb-3" style="font-weight: bold;">Grand Total: $
+                            <?php echo $grandTotal; ?>
+                        </h4>
+                    </div>
+                    <div class="text-md-right text-center mt-4">
+                        <button class="btn btn-primary" style="font-weight: bold;">Proceed to Payment</button>
+                    </div>
+
+                <?php else: ?>
+                    <p class="text-center text-muted mt-5">Your cart is empty.</p>
+                <?php endif; ?>
+
+
             </div>
-            </form>
-
-            <?php
-            $grand_total += $sub_total;
-          }
-        } else {
-          echo '<p class="empty">your cart is empty</p>';
-        }
-        ?>
-
-        <div class="card mb-4">
-          <div class="card-body p-4 d-flex flex-row">
-            <div class="form-outline flex-fill">
-              <input type="text" id="form1" class="form-control form-control-lg" />
-              <label class="form-label" for="form1">Discound code</label>
-            </div>
-            <button type="button" class="btn btn-outline-warning btn-lg ms-3">Apply</button>
-          </div>
         </div>
-
-        <div class="card">
-          <div class="card-body">
-            <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
-          </div>
-        </div>
-
-      </div>
     </div>
-  </div>
 </div>
 
 
-<!-- Footer Start -->
+
 <?php include('./includes/footer.php'); ?>
-<!-- Footer End -->

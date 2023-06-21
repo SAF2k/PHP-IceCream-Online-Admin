@@ -65,8 +65,7 @@
             <div class="col-md-6 text-center text-md-end">
                 <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                 Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                <br>Distributed By: <a class="border-bottom" href="https://github.com/SAF2k"
-                    target="_blank">SAF2k</a>
+                <br>Distributed By: <a class="border-bottom" href="https://github.com/SAF2k" target="_blank">SAF2k</a>
             </div>
         </div>
     </div>
@@ -75,7 +74,8 @@
 
 
 <!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up text-center"></i></a>
+<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+        class="bi bi-arrow-up text-center"></i></a>
 
 
 <!-- JavaScript Libraries -->
@@ -86,11 +86,13 @@
 <script src="./assets/lib/waypoints/waypoints.min.js"></script>
 <script src="./assets/lib/counterup/counterup.min.js"></script>
 <script src="./assets/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.js"></script>
 
 
 
 <!-- Template Javascript -->
 <script src="./assets/js/main.js"></script>
+<script src="./assets/js/script.js"></script>
 </body>
 
 </html>

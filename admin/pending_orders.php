@@ -1,4 +1,14 @@
-<?php include('./includes/connect.php'); ?>
+<?php 
+include('./includes/connect.php');
+
+session_start();
+
+$admin_id = $_SESSION['admin_id'];
+
+if (!isset($admin_id)) {
+    header('location:../index.php');
+}
+?>
 
 <?php include('./includes/header.php'); ?>
 

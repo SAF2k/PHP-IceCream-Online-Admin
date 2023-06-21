@@ -6,6 +6,13 @@ include './functions/admin_function.php';
 session_start();
 
 
+$admin_id = $_SESSION['admin_id'];
+
+if (!isset($admin_id)) {
+    header('location:../index.php');
+}
+
+
 if (isset($_GET['u_status']) && isset($_GET['order_id'])) {
 
     $order_id = $_GET['order_id'];

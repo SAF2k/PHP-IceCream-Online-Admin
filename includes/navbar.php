@@ -1,5 +1,4 @@
 <?php
-// session_start();
 include './config/connect.php';
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -16,7 +15,7 @@ if (isset($_SESSION['user_id'])) {
                 <h1 class="text-primary m-0">Kushi</h1>
             </a>
 
-            <div class = "order-lg-2 nav-btns">
+            <div class = "order-lg-2 nav-btn-main">
 
                 <?php
                 $count_cart_items = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
@@ -24,21 +23,24 @@ if (isset($_SESSION['user_id'])) {
                 $total_cart_items = $count_cart_items->rowCount();
                 ?>
 
-                <a href="cart.php" class = "btn position-relative">
-                    <i class = "fa fa-shopping-cart text-light"></i>
+                <a href="cart.php" class = "nav-btn-1 btn position-relative">
+                    <i class = "fa fa-shopping-cart text-dark"></i>
                     <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary"><?= $total_cart_items; ?></span>
                 </a>
                 <?php 
                 if (isset($_SESSION['user_id'])) {
                     ?>
-                    <a href="logout.php" class = "btn position-relative">
-                        <i class = "fa fa-power-off text-light"></i>
+                    <a href="profile.php" class = "nav-btn-1 btn position-relative">
+                        <i class = "fa fa-user text-dark"></i>
+                    </a>
+                    <a href="logout.php" class = "nav-btn-1 btn position-relative">
+                        <i class = "fa fa-power-off text-dark"></i>
                     </a>
                     <?php
                 } else {
                     ?>
-                    <a href="login.php" class = "btn position-relative">
-                        <i class = "fa fa-user text-light"></i>
+                    <a href="login.php" class = "nav-btn-1 btn position-relative">
+                        <i class = "fa fa-user text-dark"></i>
                     </a>
                     <?php
                 }

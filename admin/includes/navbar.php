@@ -1,5 +1,3 @@
-
-
 <nav class="sidebar sidebar-offcanvas sticky-top" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
         <a class="sidebar-brand brand-logo" href="index.php">KUSHI</a>
@@ -10,8 +8,16 @@
             <div class="profile-desc">
                 <div class="profile-pic">
                     <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">ADMIN</h5>
-                        <span>ADMIN--3</span>
+                        <?php if (isset($_SESSION['admin_id'])) {
+                            $admin_id = $_SESSION['admin_id'];
+                            $admin = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
+                            $admin->execute([$admin_id]);
+                            $admin = $admin->fetch(PDO::FETCH_ASSOC);
+                            ?>
+                            <h5 class="mb-0 font-weight-normal">
+                                <?= $admin['name']; ?>
+                            </h5>
+                        <?php } ?>
                     </div>
                 </div>
                 <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -43,9 +49,9 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        
+
         <!-- Product Columns -->
-         <li class="nav-item nav-category">
+        <li class="nav-item nav-category">
             <span class="nav-link">Products</span>
         </li>
 
@@ -68,10 +74,10 @@
         </li>
 
         <!-- Orders Columns -->
-         <li class="nav-item nav-category">
+        <li class="nav-item nav-category">
             <span class="nav-link">Orders</span>
         </li>
-        
+
         <li class="nav-item menu-items">
             <a class="nav-link" href="view_orders.php">
                 <span class="menu-icon">
@@ -99,7 +105,7 @@
             </a>
         </li>
 
-           <!-- Users Columns -->
+        <!-- Users Columns -->
         <li class="nav-item nav-category">
             <span class="nav-link">Users</span>
         </li>

@@ -2,6 +2,14 @@
 
 include('./includes/connect.php');
 
+session_start();
+
+$admin_id = $_SESSION['admin_id'];
+
+if (!isset($admin_id)) {
+    header('location:../index.php');
+}
+
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_message = $conn->prepare("DELETE FROM `messages` WHERE id = ?");
