@@ -166,7 +166,7 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                 <?php else: ?>
-                    <p class="text-center text-muted mt-5">Your cart is empty.</p>
+                    <h3 class="text-center text-muted mt-5">Your cart is empty.</h3>
                 <?php endif; ?>
 
 
