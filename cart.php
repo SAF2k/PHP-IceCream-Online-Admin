@@ -152,12 +152,12 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         <?php endforeach; ?>
                     </div>
 
                     <div class="text-md-left text-center mt-4">
-                        <h4 class="mb-3" style="font-weight: bold;">Grand Total: $
+                        <h4 class="mb-3" style="font-weight: bold;">Grand Total: $  
                             <?php echo $grandTotal; ?>
                         </h4>
                     </div>
