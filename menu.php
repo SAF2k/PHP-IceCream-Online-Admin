@@ -68,8 +68,9 @@ include 'includes/add_cart.php';
                                 <input type="hidden" name="price" value="<?= $fetch_products['price']; ?>">
                                 <input type="hidden" name="image" value="<?= $fetch_products['image']; ?>">
                                 <input type="hidden" name="qty" value="1">
-                                        <div class="collection-img position-relative">
-                                            <img height="270vh" width="100%" src="uploaded_img/<?= $fetch_products['image']; ?> " class="rounded-3 mb-3">
+                                <div class="collection-img position-relative">
+                                    <img height="270vh" width="100%" src="uploaded_img/<?= $fetch_products['image']; ?> "
+                                        class="rounded-3 mb-3">
                                 </div>
                                 <div class="d-flex justify-content-around">
                                     <p class="text-capitalize my-1">
@@ -86,7 +87,8 @@ include 'includes/add_cart.php';
                                 </div>
 
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" name="add_to_cart" class="btn btn-warning btn-block btn-sm btn-menu">Add To Cart</button>
+                                    <button type="submit" name="add_to_cart"
+                                        class="btn btn-warning btn-block btn-sm btn-menu">Add To Cart</button>
                                 </div>
 
                             </form>
