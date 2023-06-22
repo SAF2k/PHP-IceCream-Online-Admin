@@ -102,15 +102,15 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                     }
                     ?>
 
-                    <div class="container justify-content-center">
+                    <div class="container p-2 ">
                         <?php foreach ($cartItems as $key => $item): ?>
-                            <div class="card mb-3">
-                                <div class="row g-0 d-flex justify-content-around align-items-center">
+                            <div class="card mb-2">
+                                <div class="row g-0 d-flex justify-content-around px-2">
                                     <div class="col-md-2">
                                         <img src="uploaded_img/<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>"
-                                            class="img-fluid h-100">
+                                            class="img-fluid">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
                                         <div class="card-body">
                                             <h5 class="card-title">
                                                 <?php echo $item['name']; ?>
@@ -120,7 +120,7 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 ">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
                                         <div class="card-body">
                                             <form action="" method="post">
                                                 <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">
@@ -135,14 +135,14 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
                                         <div class="card-body">
                                             <p class="card-text">Total: $
                                                 <?php echo $item['price'] * $item['quantity']; ?>
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center">
                                         <div class="card-body">
                                             <form action="" method="post">
                                                 <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">

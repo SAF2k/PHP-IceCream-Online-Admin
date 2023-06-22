@@ -30,23 +30,23 @@
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-light mb-4">Photo Gallery</h4>
                 <div class="row g-2">
-                    <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-1.jpg" alt="Image">
+                     <div class="col-4">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal5.jpg" alt="Image">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-2.jpg" alt="Image">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal2.jpg" alt="Image">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-3.jpg" alt="Image">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal.png" alt="Image">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-2.jpg" alt="Image">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal4.jpg" alt="Image">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-3.jpg" alt="Image">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal3.jpg" alt="Image">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light rounded p-1" src="img/product-1.jpg" alt="Image">
+                        <img class="img-fluid bg-light rounded p-1" src="img/gal1.png" alt="Image">
                     </div>
                 </div>
             </div>
@@ -74,8 +74,9 @@
 
 
 <!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
-        class="bi bi-arrow-up text-center"></i></a>
+<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top">
+    <i class="bi bi-arrow-up text-center"></i>
+</a>
 
 
 <!-- JavaScript Libraries -->

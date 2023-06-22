@@ -69,7 +69,7 @@ include 'includes/add_cart.php';
                                 <input type="hidden" name="image" value="<?= $fetch_products['image']; ?>">
                                 <input type="hidden" name="qty" value="1">
                                         <div class="collection-img position-relative">
-                                            <img src="uploaded_img/<?= $fetch_products['image']; ?> " class="w-100 rounded-3 mb-3">
+                                            <img height="270vh" width="100%" src="uploaded_img/<?= $fetch_products['image']; ?> " class="rounded-3 mb-3">
                                 </div>
                                 <div class="d-flex justify-content-around">
                                     <p class="text-capitalize my-1">

@@ -166,7 +166,7 @@ include 'includes/add_cart.php';
                         <div class="col-md-6 col-lg-4 col-xl-3 p-2 shadow ">
                             <a href="./menu.php">
                                 <div class="collection-img position-relative wow fadeInUp" data-wow-delay="0.05s">
-                                    <img height="300px" width="300px" src="uploaded_img/<?= $fetch_products['image']; ?>"
+                                    <img height="270vh" width="100%" src="uploaded_img/<?= $fetch_products['image']; ?>"
                                         class="position-relative rounded mb-2">
                                 </div>
                                 <div class="text-center">
