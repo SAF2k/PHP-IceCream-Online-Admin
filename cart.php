@@ -72,11 +72,11 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
 <!-- Page Header Start -->
 <div class="container-fluid page-header mb-1 py-6 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center pt-5">
-        <h1 class="display-4 text-white animated slideInDown mb-3">Our Menu</h1>
+        <h1 class="display-4 text-white animated slideInDown mb-3">Shopping Cart</h1>
         <nav aria-label="breadcrumb animated slideInDown">
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a class="text-white" href="index.php">Home</a></li>
-                <li class="breadcrumb-item text-primary active" aria-current="page">Menu</li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Cart</li>
             </ol>
         </nav>
     </div>
@@ -91,7 +91,10 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-12">
-                <h1 class="mt-5 mb-4">Shopping Cart</h1>
+                <div class="title text-center">
+                    <h2 class="position-relative d-inline-block">Your Cart</h2>
+                </div>
+                
                 <?php if (!empty($cartItems)): ?>
 
                     <?php
@@ -127,8 +130,9 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                                                 <div class="input-group">
                                                     <button type="submit" name="decrement"
                                                         class="btn btn-sm btn-outline-primary">-</button>
-                                                    <input type="text" max="6" name="quantity" class="form-control form-control-sm"
-                                                        style="max-width: 60px;" value="<?php echo $item['quantity']; ?>">
+                                                    <input type="text" max="6" name="quantity"
+                                                        class="form-control form-control-sm" style="max-width: 60px;"
+                                                        value="<?php echo $item['quantity']; ?>">
                                                     <button type="submit" name="increment"
                                                         class="btn btn-sm btn-outline-primary">+</button>
                                                 </div>
@@ -152,12 +156,12 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         <?php endforeach; ?>
                     </div>
 
                     <div class="text-md-left text-center mt-4">
-                        <h4 class="mb-3" style="font-weight: bold;">Grand Total: $  
+                        <h4 class="mb-3" style="font-weight: bold;">Grand Total: $
                             <?php echo $grandTotal; ?>
                         </h4>
                     </div>
