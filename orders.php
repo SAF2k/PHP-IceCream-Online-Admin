@@ -32,60 +32,66 @@ if (isset($_SESSION['user_id'])) {
 
 <div class="container-xxl py-6">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="title text-center">
-                    <h2 class="position-relative d-inline-block">YOUR ORDERS</h2>
-                </div>
-                <div class="col-lg-12">
-                    <div class="table-responsive table-mobile-styleless">
-                        <table class="table table-bordered table-hover pt-5">
-                            <thead class="thead-primary">
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Product Name</th>
-                                    <th>Product Price</th>
-                                    <th>Payment Method</th>
-                                    <th>Order Date</th>
-                                    <th>Order Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php
-                                $selectOrder = $conn->prepare("SELECT * FROM orders WHERE user_id = ?");
-                                $selectOrder->execute([$user_id]);
-                                $orders = $selectOrder->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($orders as $key => $order) {
-                                    ?>
-                                    <tr>
-                                        <a href="index.php">
-                                            <td>#
-                                                <?php echo $order['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order['total_products']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order['total_price']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order['method']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order['placed_on']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $order['payment_status']; ?>
-                                            </td>
-                                        </a>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="row g-4 d-flex justify-content-around">
+            <div class="title text-center mb-5">
+                <h2 class="position-relative d-inline-block">YOUR ORDERS</h2>
             </div>
+
+
+            <?php
+            if ($user_id == '') {
+                echo '<p class="empty">please login to see your orders</p>';
+            } else {
+                $select_orders = $conn->prepare("SELECT * FROM `orders` WHERE user_id = ?");
+                $select_orders->execute([$user_id]);
+                if ($select_orders->rowCount() > 0) {
+                    while ($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)) {
+                        ?>
+
+
+                        <div class="col-lg-5 p-4 m-2 d-flex flex-column justify-content-around align-items-center border border-primary text-secondary wow fadeIn"
+                            data-wow-delay="0.1s">
+                            <div class="col-lg-8">
+                                <p>Order ID:
+                                    <?= $fetch_orders['id']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>Placed On:
+                                    <?= $fetch_orders['placed_on']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>Address:
+                                    <?= $fetch_orders['address']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>your orders:
+                                    <?= $fetch_orders['total_products']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>Total Amount:
+                                    <?= $fetch_orders['total_price']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                                <p>Payment Method:
+                                    <?= $fetch_orders['method']; ?>
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <?php
+                    }
+                } else {
+                    echo '<h3 class="border border-primary p-3 text-center text-muted mt-5">No Orders Placed Yet!</h3>';
+                }
+            }
+            ?>
+
         </div>
     </div>
 </div>
