@@ -108,10 +108,9 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                     <div class="container p-2 ">
                         <?php foreach ($cartItems as $key => $item): ?>
                             <div class="card mb-2">
-                                <div class="row g-0 d-flex justify-content-around px-2">
+                                <div class="row g-0 d-flex justify-content-between">
                                     <div class="col-md-2">
-                                        <img src="uploaded_img/<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>"
-                                            class="img-fluid">
+                                        <img src="uploaded_img/<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>"  class="img-fluid rounded">
                                     </div>
                                     <div class="col-md-2 d-flex justify-content-center align-items-center">
                                         <div class="card-body">

@@ -34,7 +34,7 @@ session_start();
         <div
             class="row g-4 my-2 py-3 d-flex justify-content-around align-item-center border border-secondary rounded shadow text-center">
             <div class="collection-img position-relative col-lg-4">
-                <img height="200vh" width="200vh" src="user_img/<?= $fetch_user['image']; ?>" class="rounded mb-3">
+                <img height="200vh" width="200vh" src="user_img/face-<?= $fetch_user['image']; ?>.png" class="rounded mb-3">
             </div>
             <p><i class="fas fa-user"></i><span>
                     <?= $fetch_user['name']; ?>
