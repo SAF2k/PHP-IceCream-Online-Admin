@@ -1,28 +1,42 @@
 <?php
 
 session_start();
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    die();
+}
 
-include './config/config.php';
+include './config/connect.php';
 include './functions/function.php';
 
 if (isset($_GET['reset'])) {
-    if (mysqli_num_rows(mysqli_query($conn1, "SELECT * FROM users WHERE code='{$_GET['reset']}'")) > 0) {
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE code = ?");
+    $select_user->execute([$_GET['reset']]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
+
+    if ($row > 0) {
         if (isset($_POST['submit'])) {
-            $password = mysqli_real_escape_string($conn1, md5($_POST['password']));
-            $confirm_password = mysqli_real_escape_string($conn1, md5($_POST['cpassword']));
+            $password = sha1($_POST['password']);
+            $password = filter_var($password, FILTER_SANITIZE_STRING);
+            $confirm_password = sha1($_POST['cpassword']);
+            $confirm_password = filter_var($confirm_password, FILTER_SANITIZE_STRING);
+
+
 
             if ($password === $confirm_password) {
-                $query = mysqli_query($conn1, "UPDATE users SET password='{$password}', code='' WHERE code='{$_GET['reset']}'");
+                $insert_user = $conn->prepare("UPDATE users SET password = ?, code='' WHERE code=?");
+                $query = $insert_user->execute([$password, $_GET['reset']]);
+
 
                 if ($query) {
-                    header("Location: index.php");
+                    header("Location: login.php");
                 }
             } else {
-                msg("<div class='alert alert-danger'>Password and Confirm Password do not match.</div>");
+                msg("Password and Confirm Password do not match.", "danger");
             }
         }
     } else {
-        msg("<div class='alert alert-danger'>Reset Link do not match.</div>");
+        msg("Reset Link do not match.", "danger");
     }
 } else {
     header("Location: forgot-password.php");
@@ -46,9 +60,13 @@ if (isset($_GET['reset'])) {
                             <div class="card-body p-4 p-lg-5 text-black">
 
                                 <?php
-                                if (isset($_SESSION['message'])) {
-                                    echo $_SESSION['message'];
+                                if (isset($_SESSION['message'])) { ?>
+                                    <div class='alert alert-<?= $_SESSION['method']; ?>'>
+                                        <?= $_SESSION['message']; ?>
+                                    </div>
+                                    <?php
                                     unset($_SESSION['message']);
+                                    unset($_SESSION['method']);
                                 }
                                 ?>
 
@@ -65,24 +83,24 @@ if (isset($_GET['reset'])) {
                                         account</h5>
 
                                     <div class="form-outline mb-4">
-                                            <input type="password" name="password"
-                                                class="form-control form-control-lg" required/>
-                                            <label class="form-label">Password</label>
-                                        </div>
+                                        <input type="password" name="password" class="form-control form-control-lg"
+                                            required />
+                                        <label class="form-label">Password</label>
+                                    </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input type="password" name="cpassword"
-                                                class="form-control form-control-lg" required/>
-                                            <label class="form-label">Repeat your Password</label>
-                                        </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" name="cpassword" class="form-control form-control-lg"
+                                            required />
+                                        <label class="form-label">Repeat your Password</label>
+                                    </div>
 
                                     <div class="pt-1 mb-4">
                                         <button class="btn btn-dark btn-lg btn-block" name="submit"
                                             type="submit">Login</button>
                                     </div>
 
-                                      <p class="mb-5 pb-lg-2" style="color: #393f81;">Back to! <a
-                                            href="login.php" style="color: #393f81;">login</a></p>
+                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Back to! <a href="login.php"
+                                            style="color: #393f81;">login</a></p>
                                 </form>
 
                             </div>

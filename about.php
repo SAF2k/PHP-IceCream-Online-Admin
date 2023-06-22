@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!-- Header Start -->
 <?php include('./includes/header.php'); ?>
 <!-- Header End -->
@@ -73,7 +75,7 @@
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="h-100">
                     <p class="text-primary text-uppercase mb-2">// About Us</p>
-                    <h1 class="display-6 mb-4">We Bake Every Item From The Core Of Our Hearts</h1>
+                    <h1 class="display-6 mb-4">We Serve Every Item From The Core Of Our Hearts</h1>
                     <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita
                         erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
                     <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita

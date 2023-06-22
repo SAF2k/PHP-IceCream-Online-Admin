@@ -18,52 +18,58 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 
 include './functions/function.php';
-include './config/config.php';
+include './config/connect.php';
 $msg = "";
 
 if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $code = mysqli_real_escape_string($conn, md5(rand()));
+    $email = $_POST['email'];
+    $email = filter_var($email, FILTER_SANITIZE_STRING);
+    $code = md5(rand());
 
-    if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='{$email}'")) > 0) {
-        $query = mysqli_query($conn, "UPDATE users SET code='{$code}' WHERE email='{$email}'");
+    $select_user = $conn->prepare("SELECT * FROM `users` WHERE email = ?");
+    $select_user->execute([$email]);
+    $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
-        if ($query) {
-            echo "<div style='display: none;'>";
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
+    if ($select_user->rowCount() > 0) {
+        
+        $update_user = $conn->prepare("UPDATE users SET code=? WHERE email=?");
+        $update_user->execute([$code,$email]);
 
-            try {
-                //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
-                $mail->isSMTP(); //Send using SMTP
-                $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
-                $mail->SMTPAuth = true; //Enable SMTP authentication
-                $mail->Username = 'kushicreamparlour@gmail.com'; //SMTP username
-                $mail->Password = 'ztrxmczvfohrmisc'; //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
-                $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        // echo "<div style='display: none;'>";
+        // //Create an instance; passing `true` enables exceptions
+        // $mail = new PHPMailer(true);
 
-                //Recipients
-                $mail->setFrom('kushicreamparlour@gmail.com');
-                $mail->addAddress($email);
+        // try {
+        //     //Server settings
+        //     $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
+        //     $mail->isSMTP(); //Send using SMTP
+        //     $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
+        //     $mail->SMTPAuth = true; //Enable SMTP authentication
+        //     $mail->Username = 'kushicreamparlour@gmail.com'; //SMTP username
+        //     $mail->Password = 'ztrxmczvfohrmisc'; //SMTP password
+        //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
+        //     $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-                //Content
-                $mail->isHTML(true); //Set email format to HTML
-                $mail->Subject = 'no reply';
-                $mail->Body = 'Here is the verification link <b><a href="http://localhost/kushi/change-password.php?reset=' . $code . '">http://localhost/kushi/change-password.php?reset=' . $code . '</a></b>';
+        //     //Recipients
+        //     $mail->setFrom('kushicreamparlour@gmail.com');
+        //     $mail->addAddress($email);
 
-                $mail->send();
-                echo 'Message has been sent';
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
-            echo "</div>";
-            msg("<div class='alert alert-info'>We've send a verification link on your email address.</div>");
-        }
+        //     //Content
+        //     $mail->isHTML(true); //Set email format to HTML
+        //     $mail->Subject = 'no reply';
+        //     $mail->Body = 'Here is the verification link <b><a href="http://localhost/baker/change-password.php?reset=' . $code . '"> Click Here</a></b>';
+
+        //     $mail->send();
+        //     echo 'Message has been sent';
+        // } catch (Exception $e) {
+        //     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        // }
+        // echo "</div>";
+        msg("We've send a verification link on your email address.", "success");
     } else {
-        msg("<div class='alert alert-danger'>$email - This email address do not found.</div>");
+        msg("$email - This email address do not found.", "danger");
     }
+
 }
 
 ?>
@@ -76,14 +82,18 @@ if (isset($_POST['submit'])) {
             <div class="col col-xl-9">
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
-                        
+
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
                                 <?php
-                                if (isset($_SESSION['message'])) {
-                                    echo $_SESSION['message'];
+                                if (isset($_SESSION['message'])) { ?>
+                                    <div class='alert alert-<?= $_SESSION['method']; ?>'>
+                                        <?= $_SESSION['message']; ?>
+                                    </div>
+                                    <?php
                                     unset($_SESSION['message']);
+                                    unset($_SESSION['method']);
                                 }
                                 ?>
 
@@ -112,8 +122,8 @@ if (isset($_POST['submit'])) {
                                             Reset Link</button>
                                     </div>
 
-                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Back to! <a
-                                            href="login.php" style="color: #393f81;">login</a></p>
+                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Back to! <a href="login.php"
+                                            style="color: #393f81;">login</a></p>
 
                                 </form>
 
