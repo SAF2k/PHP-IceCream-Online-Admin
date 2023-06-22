@@ -37,8 +37,8 @@ if (isset($_SESSION['user_id'])) {
                 <div class="title text-center">
                     <h2 class="position-relative d-inline-block">YOUR ORDERS</h2>
                 </div>
-                 <div class="col-lg-12">
-                    <div class="table-responsive">
+                <div class="col-lg-12">
+                    <div class="table-responsive table-mobile-styleless">
                         <table class="table table-bordered table-hover pt-5">
                             <thead class="thead-primary">
                                 <tr>
@@ -51,6 +51,7 @@ if (isset($_SESSION['user_id'])) {
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <?php
                                 $selectOrder = $conn->prepare("SELECT * FROM orders WHERE user_id = ?");
                                 $selectOrder->execute([$user_id]);
@@ -58,22 +59,36 @@ if (isset($_SESSION['user_id'])) {
                                 foreach ($orders as $key => $order) {
                                     ?>
                                     <tr>
-                                        <td>#<?php echo $order['id']; ?></td>
-                                        <td><?php echo $order['total_products']; ?></td>
-                                        <td><?php echo $order['total_price']; ?></td>
-                                        <td><?php echo $order['method']; ?></td>
-                                        <td><?php echo $order['placed_on']; ?></td>
-                                        <td><?php echo $order['payment_status']; ?></td>
+                                        <a href="index.php">
+                                            <td>#
+                                                <?php echo $order['id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $order['total_products']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $order['total_price']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $order['method']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $order['placed_on']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $order['payment_status']; ?>
+                                            </td>
+                                        </a>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-    <?php include 'includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

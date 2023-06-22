@@ -94,7 +94,7 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                 <div class="title text-center">
                     <h2 class="position-relative d-inline-block">Your Cart</h2>
                 </div>
-                
+
                 <?php if (!empty($cartItems)): ?>
 
                     <?php
