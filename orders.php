@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id'])) {
                         ?>
 
 
-                        <div class="col-lg-5 p-4 m-2 d-flex flex-column justify-content-around align-items-center border border-primary text-secondary wow fadeIn"
+                        <div class="col-lg-5 p-4 m-2 d-flex flex-column justify-content-around align-items-center border border-primary text-secondary text-capitalize wow fadeIn"
                             data-wow-delay="0.1s">
                             <div class="col-lg-8">
                                 <p>Order ID:
@@ -68,17 +68,28 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                             <div class="col-lg-8">
                                 <p>your orders:
-                                    <?= $fetch_orders['total_products']; ?>
-                                </p>
-                            </div>
-                            <div class="col-lg-8">
-                                <p>Total Amount:
+                                    <span class="text-dark "><?= $fetch_orders['total_products']; ?></span>
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <p>Total Amount:
                                     <?= $fetch_orders['total_price']; ?>
                                 </p>
                             </div>
                             <div class="col-lg-8">
                                 <p>Payment Method:
                                     <?= $fetch_orders['method']; ?>
+                                </p>
+                            </div>
+                            <div class="col-lg-8">
+                               <p>Order Status:
+                                    <?php
+                                            if ($fetch_orders['payment_status'] == 'pending') {
+                                                echo  "<span class='text-warning'> Pending</span>";
+                                            } else {
+                                                echo "<span class='text-success'> Delivered</span>";
+                                            }
+                                            ?>
                                 </p>
                             </div>
                         </div>

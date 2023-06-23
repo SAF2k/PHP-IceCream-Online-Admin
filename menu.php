@@ -48,6 +48,7 @@ include 'includes/add_cart.php';
                 <button type="button" class="btn m-2 text-dark btn-menu" data-filter=".cone">Cone</button>
                 <button type="button" class="btn m-2 text-dark btn-menu" data-filter=".scope">Scope</button>
                 <button type="button" class="btn m-2 text-dark btn-menu" data-filter=".cake">Cake</button>
+                <button type="button" class="btn m-2 text-dark btn-menu" data-filter=".sundays">Sunday</button>
             </div>
 
             <div class="collection-list mt-4 row gx-0 gy-3">

@@ -165,7 +165,7 @@ $cartItems = $selectCart->fetchAll(PDO::FETCH_ASSOC);
                         </h4>
                     </div>
                     <div class="text-md-right text-center mt-4">
-                        <button class="btn btn-primary" style="font-weight: bold;">Proceed to Payment</button>
+                        <a class="btn btn-primary" href="checkout.php" style="font-weight: bold;">Proceed to Payment</a>
                     </div>
 
                 <?php else: ?>
