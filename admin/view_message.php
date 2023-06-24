@@ -1,4 +1,4 @@
-<?php 
+<?php
 include('./includes/connect.php');
 session_start();
 
@@ -15,7 +15,7 @@ if (!isset($admin_id)) {
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="page-header">
-            <h3 class="page-title">View Orders</h3>
+            <h3 class="page-title">View Messages</h3>
         </div>
 
         <div class="row ">
@@ -24,17 +24,18 @@ if (!isset($admin_id)) {
             <div class="col-12 grid-margin mh-20">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Orders</h4>
+                        <h4 class="card-title">Messages</h4>
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead class="sticky"">
                                     <tr>
                                         <th>
-                                            <h5> Client Name </h5>
+                                           ID#
                                         </th>
-                                        <th> Message No #</th>
-                                        <th> Price </th>
+                                        <th> Name </th>
+                                        <th> Number </th>
                                         <th> Date </th>
+                                        <th> Message </th>
                                     </tr>
                                 </thead>
                                 <?php
@@ -45,84 +46,73 @@ if (!isset($admin_id)) {
                                         ?>
                                         <tbody>
                                             <tr>
+                                                <td> #<?= $fetch_message['id']; ?></td>
+                                                <td> <?= $fetch_message['name']; ?></td>
+                                                <td> <?= $fetch_message['number']; ?>
+                                                </td>
+                                                <td> <?= $fetch_message['date']; ?></td>
                                                 <td>
-                                                    <h5 class=" pl-2">
-                                            <?= $fetch_message['name']; ?>
-                                            </h5>
-                                            </td>
-                                            <td>
-                                                #
-                                                <?= $fetch_message['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $fetch_message['message']; ?>
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target="#myModal<?php echo $fetch_message['id'] ?>">View</button>
-                                                </div>
-                                            </td>
-
+                                                    <div class=" dropdown">
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal<?php echo $fetch_message['id'] ?>">View</button>
+                                                    </div>
+                                                </td>
                                             </tr>
 
 
-                                            <div id="myModal<?php echo $fetch_message['id'] ?>" class="modal fade" role="dialog">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Details</h4>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body text-info">
-                                                            <h4>Name :
-                                                                <?php echo $fetch_message['name']; ?>
-                                                            </h4>
-                                                            <hr>
-                                                            <h4>Email :
-                                                                <?php echo $fetch_message['email']; ?>
-                                                            </h4>
-                                                            <hr>
-                                                            <h4 class="text-danger">
-                                                                Message :
-                                                                <span class="text-success"> [
-                                                                    <?php echo $fetch_message['message']; ?> ]
-                                                                </span>
-                                                            </h4>
+                        <div id="myModal<?php echo $fetch_message['id'] ?>" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Details</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body text-info">
+                                        <h4>Name :
+                                            <?php echo $fetch_message['name']; ?>
+                                        </h4>
+                                        <hr>
+                                        <h4>Email :
+                                            <?php echo $fetch_message['email']; ?>
+                                        </h4>
+                                        <hr>
+                                        <h4 class="text-danger">
+                                            Message :
+                                            <span class="text-success"> [
+                                                <?php echo $fetch_message['message']; ?> ]
+                                            </span>
+                                        </h4>
 
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 
 
-                                            </tbody>
-                                            <?php
+                        </tbody>
+                        <?php
                                     }
                                 } else {
                                     echo '<p class="empty">no orders placed yet!</p>';
                                 }
                                 ?>
-                            </table>
-                        </div>
+                        </table>
                     </div>
-
                 </div>
+
             </div>
-
-
         </div>
 
+
     </div>
+
+</div>
 </div>
 
 

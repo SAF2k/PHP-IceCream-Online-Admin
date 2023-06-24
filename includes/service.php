@@ -49,10 +49,10 @@
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="row img-twice position-relative h-100">
                     <div class="col-6">
-                        <img class="img-fluid rounded" src="image/cone-dry.jpg" alt="">
+                        <img class="img-fluid rounded" src="img/cone-dry.jpg" alt="">
                     </div>
                     <div class="col-6 align-self-end">
-                        <img class="img-fluid rounded" src="image/scope.png" alt="">
+                        <img class="img-fluid rounded" src="img/scope.png" alt="">
                     </div>
                 </div>
             </div>

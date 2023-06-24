@@ -175,7 +175,7 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="./image/candy-bg-blue.jpg" alt="login form" class="img-fluid"
+                            <img src="./img/candy-bg-blue.jpg" alt="login form" class="img-fluid"
                                 style="border-radius: 0 1rem 1rem 0;" />
                         </div>
                     </div>

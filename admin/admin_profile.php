@@ -17,18 +17,18 @@ if (isset($_POST['submit'])) {
     $name = filter_var($name, FILTER_SANITIZE_STRING);
 
     if (!empty($name)) {
-        $select_name = $conn->prepare("SELECT * FROM `admin` WHERE name = ?");
+        $select_name = $conn->prepare("SELECT * FROM `users` WHERE name = ?");
         $select_name->execute([$name]);
         if ($select_name->rowCount() > 0) {
             msg('username already taken!','error');
         } else {
-            $update_name = $conn->prepare("UPDATE `admin` SET name = ? WHERE id = ?");
+            $update_name = $conn->prepare("UPDATE `users` SET name = ? WHERE id = ?");
             $update_name->execute([$name, $admin_id]);
         }
     }
 
     $empty_pass = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
-    $select_old_pass = $conn->prepare("SELECT password FROM `admin` WHERE id = ?");
+    $select_old_pass = $conn->prepare("SELECT password FROM `users` WHERE id = ?");
     $select_old_pass->execute([$admin_id]);
     $fetch_prev_pass = $select_old_pass->fetch(PDO::FETCH_ASSOC);
     $prev_pass = $fetch_prev_pass['password'];
@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
                         $select_admin->execute(["$admin_id"]);
                         $fetch_admin = $select_admin->fetch(PDO::FETCH_ASSOC);
                         ?>
-                        <form class="forms-sample">
+                        <form class="forms-sample" method="POST">
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text" class="form-control" name="name"

@@ -65,117 +65,98 @@ if (isset($_GET['u_status']) && isset($_GET['order_id'])) {
                                             <tr>
                                                 <td>
                                                     <h5 class=" pl-2">
-                                            <?= $fetch_orders['name']; ?>
-                                            </h5>
-                                            </td>
-                                            <td>
-                                                #
-                                                <?= $fetch_orders['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $fetch_orders['total_price']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $fetch_orders['placed_on']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $fetch_orders['placed_time']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $fetch_orders['method']; ?>
-                                            </td>
-                                            <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
-                                            <?php if ($fetch_orders['payment_status'] == 'completed') { ?>
-                                                <td>
-                                                    <div class="dropdown">
+                                    <?= $fetch_orders['name']; ?>
+                                    </h5>
+                                    </td>
+                                    <td>
+                                        #
+                                        <?= $fetch_orders['id']; ?>
+                                    </td>
+                                    <td>
+                                        <?= $fetch_orders['total_price']; ?>
+                                    </td>
+                                    <td>
+                                        <?= $fetch_orders['placed_on']; ?>
+                                    </td>
+                                    <td>
+                                        <?= $fetch_orders['placed_time']; ?>
+                                    </td>
+                                    <td>
+                                        <?= $fetch_orders['method']; ?>
+                                    </td>
+                                    <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
+                                    <?php if ($fetch_orders['payment_status'] == 'completed') { ?>
+                                        <td>
+                                            <div class="dropdown">
 
-                                                        <!-- <button class="btn btn-outline-success dropdown-toggle" type="submit"
-                                                                id="dropdownMenuOutlineButton1" data-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false"> <?= $fetch_orders['payment_status']; ?> </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
-                                                                <a class="dropdown-item text-warning"
-                                                                    href="view_orders.php?u_status=pending&order_id=<?= $fetch_orders['id']; ?>">Pending</a>
-                                                            </div> -->
-
-                                                        <a href="view_orders.php?u_status=pending&order_id=<?= $fetch_orders['id']; ?>"
-                                                            class="btn btn-outline-success px-3">completed</a>
-                                                    </div>
-                                                </td>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <td>
-                                                    <div class="dropdown">
-
-                                                        <!-- <button class="btn btn-outline-warning dropdown-toggle" type="submit"
-                                                                id="dropdownMenuOutlineButton1" data-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false"> <?= $fetch_orders['payment_status']; ?> </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
-                                                                <a class="dropdown-item text-success"
-                                                                    href="view_orders.php?u_status=completed&order_id=<?= $fetch_orders['id']; ?>">Completed</a>
-                                                            </div> -->
-
-                                                        <a href="view_orders.php?u_status=completed&order_id=<?= $fetch_orders['id']; ?>"
-                                                            class="btn btn-outline-warning px-4"> Pending </a>
-                                                    </div>
-
-                                                </td>
-                                                <?php
-                                            } ?>
+                                                <a href="view_orders.php?u_status=pending&order_id=<?= $fetch_orders['id']; ?>"
+                                                    class="btn btn-outline-success px-3">completed</a>
+                                            </div>
+                                        </td>
+                                        <?php
+                                    } else {
+                                        ?>
                                             <td>
                                                 <div class="dropdown">
-                                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target="#myModal<?php echo $fetch_orders['id'] ?>">View</button>
+
+                                                    <a href="view_orders.php?u_status=completed&order_id=<?= $fetch_orders['id']; ?>"
+                                                        class="btn btn-outline-warning px-4"> Pending </a>
                                                 </div>
+
                                             </td>
+                                            <?php
+                                    } ?>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                                data-target="#myModal<?php echo $fetch_orders['id'] ?>">View</button>
+                                        </div>
+                                    </td>
 
-                                            </tr>
+                                    </tr>
 
 
-                                            <div id="myModal<?php echo $fetch_orders['id'] ?>" class="modal fade" role="dialog">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Details</h4>
-                                                            <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body text-info">
-                                                            <h4>Name :
-                                                                <?php echo $fetch_orders['name']; ?>
-                                                            </h4>
-                                                            <hr>
-                                                            <h4>Mobile Number :
-                                                                <?php echo $fetch_orders['number']; ?>
-                                                            </h4>
-                                                            <hr>
-                                                            <h4>Address :
-                                                                <?php echo $fetch_orders['address']; ?>
-                                                            </h4>
-                                                            <hr>
-                                                            <h4 class="text-danger">
-                                                                Order :
-                                                                <span class="text-success"> [
-                                                                    <?php echo $fetch_orders['total_products']; ?> ]
-                                                                </span>
-                                                            </h4>
+                                    <div id="myModal<?php echo $fetch_orders['id'] ?>" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Details</h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body text-info">
+                                                    <h4>Name :
+                                                        <?php echo $fetch_orders['name']; ?>
+                                                    </h4>
+                                                    <hr>
+                                                    <h4>Mobile Number :
+                                                        <?php echo $fetch_orders['number']; ?>
+                                                    </h4>
+                                                    <hr>
+                                                    <h4>Address :
+                                                        <?php echo $fetch_orders['address']; ?>
+                                                    </h4>
+                                                    <hr>
+                                                    <h4 class="text-danger">
+                                                        Order :
+                                                        <span class="text-success"> [
+                                                            <?php echo $fetch_orders['total_products']; ?> ]
+                                                        </span>
+                                                    </h4>
 
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">
+                                                        Close
+                                                    </button>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
 
-
-
-
-                                            </tbody>
-                                            <?php
+                                    </tbody>
+                                    <?php
                                     }
                                 } else {
                                     echo '<p class="empty">no orders placed yet!</p>';
@@ -187,7 +168,6 @@ if (isset($_GET['u_status']) && isset($_GET['order_id'])) {
 
                 </div>
             </div>
-
 
         </div>
 
